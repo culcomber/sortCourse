@@ -43,7 +43,7 @@
         <el-form-item>
           <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
           <el-button @click="addDomain">新增关系</el-button>
-          <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
+          //<el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
         </el-form-item>
       </el-row>
 
@@ -89,10 +89,11 @@
           });
 
         },
+        /*
         resetForm(formName) {
           this.$refs[formName].resetFields();
         },
-
+        */
         removeDomain(item) {
           let index = this.dynamicValidateForm.domains.indexOf(item);
           if (index !== 0) {
