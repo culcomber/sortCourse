@@ -12,86 +12,105 @@
         <el-input v-model="dynamicValidateForm.email" ></el-input>
         <el-input v-model="dynamicValidateForm.email" style="margin-top: 20px"></el-input>
       </el-form-item>-->
-        <el-form-item
-          v-for="(domain, index) in dynamicValidateForm.domains"
-          :label="'先修关系' + index"
-          :prop="'domains.' + index "
-          :rules="{
-                required: true, message: '', trigger: 'blur'
-              }"
-          name="mItem"
-        >
-          <el-input v-model="domain.relationship" name="mInput" ></el-input>
-          <el-button @click.prevent="removeDomain(domain)">删除</el-button>
-        </el-form-item>
+      <el-row>
+          <el-form-item
+            v-for="(domain, index) in dynamicValidateForm.domains"
+            :prop="'domains.' + index"
+            name = "mItem"
+            :key ="domain.key"
+            style="margin-top: 20px"
+            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
 
+            <el-col :span="8" >
+              <el-form-item :label="'先修者' + index"
+                            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
+                <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item  :label="'后修者' + index"
+                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
+                <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-button @click.prevent="removeDomain(domain)">删除</el-button>
+            </el-col>
+          </el-form-item>
+      </el-row>
+
+      <el-row>
         <el-form-item>
           <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
           <el-button @click="addDomain">新增关系</el-button>
           <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
         </el-form-item>
+      </el-row>
 
     </el-form>
-    <!--<p>{{dynamicValidateForm.domains[0]["relationship"]}}</p>-->
-    <!--<p>{{dynamicValidateForm.domains[1]["relationship"]}}</p>-->
-    <input type="button" @change="dealData"></input>
+
   </div>
 </template>
 <script>
   export default {
     name: "inputData",
-    data()  {
+    data() {
       return {
         dynamicValidateForm: {
           domains: [{
-           relationship:'',
-          }],
+            shipBefore: '',
+            shipAfter: '',
+          }]
         },
       };
     },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-            // let dataLink = [];
-            // let index = this.dynamicValidateForm.domains.indexOf(item);
-            /*for(let i = 0; i<index; i++){
-                data[i] = '[' + formName.;
-            }*/
-            // let aloop = formName.getElementById()
-            // str = dynamicValidateForm;
+      methods: {
+        submitForm(formName) {
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              this.$notify({
+                title: '成功',
+                message: '提交成功',
+                type: 'success'
+              });
+              let dataLink = [];
+              for (let i = 0; i < this.dynamicValidateForm.domains.length; ++i) {
+                dataLink[i] = [];
+                dataLink[i][0] = this.dynamicValidateForm.domains[i]["shipBefore"];
+                dataLink[i][1] = this.dynamicValidateForm.domains[i]["shipAfter"];
 
+              }
+              console.log(dataLink);
+              alert('submit!');
+            } else {
+              console.log('error submit!!');
+              return false;
+            }
+          });
+
+        },
+        resetForm(formName) {
+          this.$refs[formName].resetFields();
+        },
+
+        removeDomain(item) {
+          let index = this.dynamicValidateForm.domains.indexOf(item);
+          if (index !== 0) {
+            this.dynamicValidateForm.domains.splice(index, 1)
           } else {
-            console.log('error submit!!');
-            return false;
+            this.$alert('到底啦！！！', '删除', {
+              confirmButtonText: '确定',
+            });
           }
-        });
-
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      },
-
-      removeDomain(item) {
-        let index = this.dynamicValidateForm.domains.indexOf(item);
-        if (index !== -1) {
-          this.dynamicValidateForm.domains.splice(index, 1)
+        },
+        addDomain() {
+          this.dynamicValidateForm.domains.push({
+            shipBefore: '',
+            shipAfter: '',
+            key: Date.now()
+          });
         }
-      },
-      addDomain() {
-        this.dynamicValidateForm.domains.push({
-          relationship: '',
-          key: Date.now()
-        });
-      },
-
-      // dealData : function () {
-      //   const str = this.dynamicValidateForm.domains[0][""];
-      //   console.log(str);
-      // }
-    },
-
+      }
   }
 </script>
 
@@ -101,5 +120,4 @@
     margin-left: 30%;
     margin-top: 5%;
   }
-
 </style>
