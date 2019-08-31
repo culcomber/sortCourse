@@ -1,5 +1,5 @@
 <template>
-    $END$
+<div>checkData</div>
 </template>
 
 <script>

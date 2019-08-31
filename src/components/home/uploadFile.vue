@@ -10,6 +10,7 @@
 <script>
     export default {
       name: "uploadFile",
+        props:['dialogCreate'],
       methods: {
         uploadFile :  function () {
           let textContent; // 保存文件内容
@@ -52,6 +53,8 @@
               m++;
             }
             console.log(tArray);
+            this.$emit('success',true);
+
           }
         },
       }

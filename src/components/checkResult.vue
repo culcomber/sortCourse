@@ -1,5 +1,5 @@
 <template>
-    $END$
+<div>checkResult</div>
 </template>
 
 <script>
