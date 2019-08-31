@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-form id="mForm" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
+
       <el-row>
           <el-form-item
             v-for="(domain, index) in dynamicValidateForm.domains"
@@ -64,16 +65,7 @@
                 message: '提交成功',
                 type: 'success'
               });
-              /*
-              let dataLink = [];
-              for (let i = 0; i < this.dynamicValidateForm.domains.length; ++i) {
-                dataLink[i] = [];
-                dataLink[i][0] = this.dynamicValidateForm.domains[i]["shipBefore"];
-                dataLink[i][1] = this.dynamicValidateForm.domains[i]["shipAfter"];
-              }
-             let matrix = arrayToMatrix(dataLink);
-             console.log(matrix);
-              */
+
               let dataInput = [];
               for(let i = 0; i<data.length; i++){
                 dataInput[i] = [];
@@ -86,8 +78,6 @@
               }else {
                 console.log("有环")
               }
-
-              //alert('submit!');
             } else {
               console.log('error submit!!');
               return false;
@@ -95,11 +85,6 @@
           });
 
         },
-        /*
-        resetForm(formName) {
-          this.$refs[formName].resetFields();
-        },
-        */
         removeDomain(item) {
           let index = this.dynamicValidateForm.domains.indexOf(item);
           if (index !== 0) {
