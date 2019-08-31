@@ -1,17 +1,7 @@
 <template>
   <div>
     <el-form id="mForm" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
-      <!--<el-form-item
-        prop="email"
-        label="邮箱"
-        :rules="[
-      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-      { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
-    ]"
-      >
-        <el-input v-model="dynamicValidateForm.email" ></el-input>
-        <el-input v-model="dynamicValidateForm.email" style="margin-top: 20px"></el-input>
-      </el-form-item>-->
+
       <el-row>
           <el-form-item
             v-for="(domain, index) in dynamicValidateForm.domains"
@@ -52,6 +42,8 @@
   </div>
 </template>
 <script>
+  // import {arrayToMatrix,data} from "./src/javaScript/data_change.js";
+
   export default {
     name: "inputData",
     data() {
@@ -73,15 +65,19 @@
                 message: '提交成功',
                 type: 'success'
               });
-              let dataLink = [];
-              for (let i = 0; i < this.dynamicValidateForm.domains.length; ++i) {
-                dataLink[i] = [];
-                dataLink[i][0] = this.dynamicValidateForm.domains[i]["shipBefore"];
-                dataLink[i][1] = this.dynamicValidateForm.domains[i]["shipAfter"];
 
+              let dataInput = [];
+              for(let i = 0; i<data.length; i++){
+                dataInput[i] = [];
+                dataInput[i][0] = data[i][0];
+                dataInput[i][1] = data[i][1];
               }
-              console.log(dataLink);
-              //alert('submit!');
+              let matrix = arrayToMatrix(dataInput);
+              if(matrix!==-1){
+                console.log(matrix);
+              }else {
+                console.log("有环")
+              }
             } else {
               console.log('error submit!!');
               return false;
@@ -89,11 +85,6 @@
           });
 
         },
-        /*
-        resetForm(formName) {
-          this.$refs[formName].resetFields();
-        },
-        */
         removeDomain(item) {
           let index = this.dynamicValidateForm.domains.indexOf(item);
           if (index !== 0) {

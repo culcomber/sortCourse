@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import home from '@/components/home'
 import inputData from '@/components/home/inputData'
 import uploadFile from '@/components/home/uploadFile'
-import checkData from '@/components/checkData'
+import relationGraph from '@/components/relationGraph'
 import checkResult from '@/components/checkResult'
 
-Vue.use(Router);
+import relation from '@/components/relationGraph'
+Vue.use(Router)
 
 export default new Router({
   routes: [
@@ -33,9 +35,9 @@ export default new Router({
       ]
     },
     {
-      path: '/checkData',
-      name: 'checkData',
-      component: checkData
+      path: '/relationGraph',
+      name: 'relationGraph',
+      component: relationGraph
     },
     {
       path: '/checkResult',
