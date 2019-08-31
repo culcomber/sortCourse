@@ -18,7 +18,7 @@
 
           const selectedFile = document.getElementById('files1').files[0]
           const reader = new FileReader()
-          reader.readAsBinaryString(selectedFile) // readAsText是个异步操作，只有等到onload时才能显示数据。
+          reader.readAsText(selectedFile) // readAsText是个异步操作，只有等到onload时才能显示数据。
           reader.onload = function () {
             //保存文本内容到txxtContent
             textContent = this.result;
