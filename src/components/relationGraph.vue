@@ -1,7 +1,7 @@
 <template>
   <div>
        <div id="myChart" :style="{width:'100%',height:'600px'}"></div>
-       <el-button type="primary" round class="exportClass" @click="department_exportFigure()">导出</el-button>
+       <el-button v-show="isShow"  type="primary" round class="exportClass" @click="department_exportFigure()">导出</el-button>
   </div>
 </template>
 <script>
@@ -18,7 +18,10 @@
         name: "relationGraph",
         data(){
           return {
-            msg:'Welcome to Your Vue.js App'
+            msg:'Welcome to Your Vue.js App',
+            isShow:false
+
+
           }
         },
         mounted() {
@@ -30,6 +33,7 @@
         },
         methods:{
           department_exportFigure(){
+            let isShow=false;
             let  myChart =echarts.init(document.getElementById('myChart'));
             setTimeout(function() {
               var img = new Image();
@@ -51,7 +55,7 @@
                 // 创建一个单击事件
                 var event = new MouseEvent('click');
                 // 将a的download属性设置为我们想要下载的图片名称，若name不存在则使用‘下载图片名称’作为默认名称
-                a.download = '矩形图表.png' || '下载图片名称';
+                a.download = '关系图.png' || '下载图片名称';
                 // 将生成的URL设置为a.href属性
                 a.href = dataURL;
                 // 触发a的单击事件
@@ -193,6 +197,8 @@
             myChart.setOption(option);
             setTimeout(()=>{
               myChart.hideLoading();//隐藏加载动画;
+             this.isShow=true;
+              console.log(this.isShow)
               myChart.setOption({
                 title:{
                   text:'输入数据的关系图',
