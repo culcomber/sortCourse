@@ -6,14 +6,14 @@
 </template>
 <script>
   //引入基本模板
-  let echarts = require('echarts/lib/echarts')
+  let echarts = require('echarts/lib/echarts');
   //引入图形
-  require('echarts/lib/chart/graph')
+  require('echarts/lib/chart/graph');
   //引入提示框和title组件
-  require('echarts/lib/component/tooltip')
-  require('echarts/lib/component/title')
+  require('echarts/lib/component/tooltip');
+  require('echarts/lib/component/title');
   //转换数据
-  require('echarts/lib/data_change')
+  // require('echarts/lib/data_change');
     export default {
         name: "relationGraph",
         data(){
