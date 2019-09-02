@@ -45,8 +45,8 @@
   </div>
 </template>
 <script>
-  import {arrayToMatrix,data} from '../javaScript/data_change';
-  import {topoRank,topoSet,topoArray} from "../javaScript/topo";
+  import {arrayToMatrix,arrayToData} from '../javaScript/data_change';
+  import {topoRank,topoArray} from "../javaScript/topo";
 
   export default {
     name: "inputData",
@@ -85,6 +85,9 @@
                 console.log(matrix);
                 topoRank(0,matrix,matrix.length);
                 console.log(topoArray);
+                //输出带信息的数组；
+                console.log(arrayToData(topoArray));
+
               }else {
                 console.log("有环")
               }
