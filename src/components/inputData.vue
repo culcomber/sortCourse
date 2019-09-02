@@ -1,7 +1,6 @@
 <template>
   <div>
     <el-form :model="dynamicValidateForm" ref="dynamicValidateForm"  label-width="100px" class="demo-dynamic" >
-
       <el-row class="demo-row1">
           <el-form-item
             v-for="(domain, index) in dynamicValidateForm.domains"
@@ -47,6 +46,8 @@
 </template>
 <script>
   import {arrayToMatrix,data} from '../javaScript/data_change';
+  import {topoRank,topoSet,topoArray} from "../javaScript/topo";
+
   export default {
     name: "inputData",
     data() {
@@ -64,6 +65,7 @@
         submitForm(formName) {
           this.$refs[formName].validate((valid) => {
             if (valid) {
+              console.clear();
               this.$notify({
                 title: '成功',
                 message: '提交成功',
@@ -71,14 +73,18 @@
               });
 
               let dataInput = [];
-              for(let i = 0; i<data.length; i++){
+              for(let i = 0; i<this.dynamicValidateForm.domains.length; i++){
                 dataInput[i] = [];
-                dataInput[i][0] = data[i][0];
-                dataInput[i][1] = data[i][1];
+                dataInput[i][0] = this.dynamicValidateForm.domains[i].shipBefore;
+                dataInput[i][1] = this.dynamicValidateForm.domains[i].shipAfter;
               }
+              console.log(dataInput);
+
               let matrix = arrayToMatrix(dataInput);
               if(matrix!==-1){
                 console.log(matrix);
+                topoRank(0,matrix,matrix.length);
+                console.log(topoArray);
               }else {
                 console.log("有环")
               }
@@ -87,7 +93,6 @@
               return false;
             }
           });
-
         },
         removeDomain(item) {
           let index = this.dynamicValidateForm.domains.indexOf(item);
