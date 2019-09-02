@@ -1,30 +1,34 @@
 <template>
   <div>
        <div id="myChart" :style="{width:'100%',height:'600px'}"></div>
-       <el-button v-show="isShow"  type="primary" round class="exportClass" @click="department_exportFigure()">导出</el-button>
+       <el-button type="primary"  v-show="isShow"  round class="exportClass" @click="department_exportFigure()">导出</el-button>
   </div>
 </template>
 <script>
+    import {arrayToData, arrayToLinks} from "../javaScript/data_change";
+
   //引入基本模板
-  let echarts = require('echarts/lib/echarts')
+
+  let echarts = require('echarts/lib/echarts');
   //引入图形
-  require('echarts/lib/chart/graph')
+  require('echarts/lib/chart/graph');
   //引入提示框和title组件
-  require('echarts/lib/component/tooltip')
-  require('echarts/lib/component/title')
+  require('echarts/lib/component/tooltip');
+  require('echarts/lib/component/title');
   //转换数据
-  require('echarts/lib/data_change')
+  // require('echarts/lib/data_change');
     export default {
         name: "relationGraph",
         data(){
           return {
             msg:'Welcome to Your Vue.js App',
-            isShow:false
-
+            isShow:false,
+            tArr:this.$store.state.tArray,
 
           }
         },
         mounted() {
+
           this.drawLine();
           window.addEventListener('resize',()=>{
            echarts.init(document.getElementById('myChart')).resize()//自适应屏幕
@@ -32,8 +36,8 @@
 
         },
         methods:{
+
           department_exportFigure(){
-            let isShow=false;
             let  myChart =echarts.init(document.getElementById('myChart'));
             setTimeout(function() {
               var img = new Image();
@@ -69,53 +73,57 @@
            //  for (let i=0;i<name.length;i++)
            // let data3=arrayToLinks(dataLink);
             //改成调用过来的数据
+             console.log(this.$store)
+              console.log(this.$store.state)
             let  myChart =echarts.init(document.getElementById('myChart'));
             myChart.showLoading();
-            let nodes=[
-              {name: 'C1'},
-              { name:'C2'},
-              { name:'C3'},
-              { name:'C4'
-              },
-              {name: 'C5'},
-              { name:'C6'},
-              { name:'C7'},
-              { name:'C8'
-              }
+             let nodes=arrayToData(this.tArr)
+             let links=arrayToLinks(this.tArr)
+            /*   let nodes=[
+                  {name: 'C1'},
+                  { name:'C2'},
+                  { name:'C3'},
+                  { name:'C4'
+                  },
+                  {name: 'C5'},
+                  { name:'C6'},
+                  { name:'C7'},
+                  { name:'C8'
+                  }
               ]
-            let links=[{
-               source:'C2',
-               target:'C8',
-            },
-              {
-                source: 'C1',
-                target:'C5'
+              let links=[{
+                  source:'C2',
+                  target:'C8',
               },
-              {
-                source: 'C2',
-                target:'C6'
-              },
-              {
-                source: 'C1',
-                target:'C4'
-              },
-              {
-                source:'C4',
-                target:'C8',
-              },
-              {
-                source: 'C2',
-                target:'C7'
-              },
-              {
-                source: 'C8',
-                target:'C6'
-              },
-              {
-                source: 'C7',
-                target:'C3'
-              },
-            ];
+                  {
+                      source: 'C1',
+                      target:'C5'
+                  },
+                  {
+                      source: 'C2',
+                      target:'C6'
+                  },
+                  {
+                      source: 'C1',
+                      target:'C4'
+                  },
+                  {
+                      source:'C4',
+                      target:'C8',
+                  },
+                  {
+                      source: 'C2',
+                      target:'C7'
+                  },
+                  {
+                      source: 'C8',
+                      target:'C6'
+                  },
+                  {
+                      source: 'C7',
+                      target:'C3'
+                  },
+              ];*/
             let linkss=[];
             //线条配置
             for(let i=0;i<links.length;i++){
@@ -197,8 +205,7 @@
             myChart.setOption(option);
             setTimeout(()=>{
               myChart.hideLoading();//隐藏加载动画;
-             this.isShow=true;
-              console.log(this.isShow)
+                this.isShow=true;
               myChart.setOption({
                 title:{
                   text:'输入数据的关系图',
