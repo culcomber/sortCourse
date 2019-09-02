@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-  // import {arrayToMatrix,data} from "./src/javaScript/data_change.js";
+  import {arrayToMatrix,data} from "../../javaScript/data_change.js";
 
   export default {
     name: "inputData",
@@ -58,6 +58,7 @@
     },
       methods: {
         submitForm(formName) {
+          console.log(this.dynamicValidateForm.domains)
           this.$refs[formName].validate((valid) => {
             if (valid) {
               this.$notify({

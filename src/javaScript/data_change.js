@@ -91,22 +91,6 @@ function arrayToLinks(dataLink){
   return links
 }
 
-//测试数据
-let dataLink = [
-  ["c1", "c2"],
-  ["c2", "c3"],
-  ["c2", "c4"],
-  ["c5", "c6"],
-  ["c3", "c5"],
-  ["c4", "c6"],
-  ["c6", "c7"],
-  ["c1", "c3"]
-];
-
-let data = arrayToMatrix(dataLink) ;//转成邻接矩阵,如果有环，返回-1，否则返回邻接矩阵
-let data2 = arrayToData(dataLink) ; //转成节点信息
-let data3 = arrayToLinks(dataLink) ; //转成节点关系
-
 export {
-  data,arrayToMatrix
+  arrayToMatrix
 }
