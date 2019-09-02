@@ -1,29 +1,33 @@
 <template>
   <div>
-    <el-form id="mForm" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
+    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm"  label-width="100px" class="demo-dynamic" >
 
-      <el-row>
+      <el-row class="demo-row1">
           <el-form-item
             v-for="(domain, index) in dynamicValidateForm.domains"
-            :prop="'domains.' + index"
-            name = "mItem"
+            :label="'先修关系'+index+':'"
             :key ="domain.key"
-            style="margin-top: 20px"
-            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
+            style="margin-top: 20px">
 
-            <el-col :span="8" >
-              <el-form-item :label="'先修者' + index"
-                            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
-                <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
+            <el-col :span="4" class="demo-col">
+              <el-form-item
+                            :prop="'domains.' + index + '.shipBefore' "
+                            :rules="[{required: true, message: '请输入先修者', trigger: 'blur,change'},
+                                      {min:1, message:'不能为空',trigger:'blur,change'}]"
+              >
+                <el-input v-model="domain.shipBefore"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item  :label="'后修者' + index"
-                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
-                <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
+            <el-col :span="4" class="demo-col">
+            <el-form-item
+                          :prop="'domains.' + index + '.shipAfter'"
+                          :rules="{ required: true, message: '请输入后修者', trigger: 'blur,change'}"
+            >
+                <el-input v-model="domain.shipAfter" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+
+            <el-col :span="4" >
               <el-button @click.prevent="removeDomain(domain)">删除</el-button>
             </el-col>
           </el-form-item>
@@ -42,15 +46,15 @@
   </div>
 </template>
 <script>
-  import {arrayToMatrix,data} from "../javaScript/data_change";
-
+  import {arrayToMatrix,data} from '../javaScript/data_change';
   export default {
     name: "inputData",
     data() {
       return {
+        count:'',
         dynamicValidateForm: {
           domains: [{
-            shipBefore: '',
+            shipBefore : '',
             shipAfter: '',
           }]
         },
@@ -108,8 +112,19 @@
 
 <style scoped>
   .demo-dynamic{
-    width: 40%;
-    margin-left: 30%;
+    text-align: center;
+    width: 100%;
     margin-top: 5%;
   }
+  .demo-row1{
+    width: 50%;
+    min-width: border-box;
+    margin-left: 38.4%;
+
+  }
+  .demo-col{
+    min-width: border-box;
+    margin-left: 10px;
+  }
+
 </style>
