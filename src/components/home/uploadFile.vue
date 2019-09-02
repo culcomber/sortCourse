@@ -8,10 +8,8 @@
 </template>
 
 <script>
-    //导出文件
-    import { saveAs } from "../../javaScript/FileSaver"
-    import {arrayToMatrix,data} from "../../javaScript/data_change.js";
-    import {topoRank,topoSet} from "../../javaScript/topo.js";
+    import {arrayToMatrix,arrayToData} from '../../javaScript/data_change.js';
+    import {topoRank,topoArray} from "../../javaScript/topo.js";
     export default {
       name: "uploadFile",
         // props:['dialogCreate'],
@@ -61,20 +59,9 @@
                 this.tArray[m][1] = secData[k];
                   m++;
             }
-              //获取topo排序
+              //topo排序
               let matrix = arrayToMatrix(this.tArray);
               topoRank(0,matrix,matrix.length);
-              // console.log(typeof topoSet);
-              // console.log(topoSet);
-              // var sortResult = topoSet.split(/,|\n/);
-              // console.log(sortResult);
-              //导出文件
-              // var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
-              // FileSaver.saveAs(blob, "hello world.txt");
-              // var blob = new Blob([topoSet], {type: "text/plain;charset=utf-8"});
-              // saveAs(blob, "topoSort.txt");
-
-              // console.log(this.tArray);
           }
         },
       }

@@ -1,18 +1,18 @@
+let numberWhat = [];
 function toArray(dataLink){
-  let number = [];
   dataLink.forEach(index=>{
     index.forEach(value=>{
       let flag = true;
-      for(let i=0;i<number.length;i++){
-        if(number[i] === value){
+      for(let i=0;i<numberWhat.length;i++){
+        if(numberWhat[i] === value){
           flag = false;
           break
         }
       }
-      if(flag === true) number.push(value)
+      if(flag === true) numberWhat.push(value)
     })
-  })
-  return number
+  });
+  return numberWhat
 }
 
 /**
@@ -64,15 +64,16 @@ function arrayToMatrix(dataLink){
  * @param dataLink
  * @returns {Array}
  */
+let inforData = [];
 function arrayToData(dataLink){
-  let data = [];
   let number = toArray(dataLink);
-  let num = number.length;
-  for(let i = 0; i < num; i++){
-    data.push({});
-    data[i].name = number[i]
+  for(let i = 0; i < dataLink.length; i++){
+    inforData[i] = [];
+    for (let j = 0; j < dataLink[i].length; ++j){
+      inforData[i][j] = number[dataLink[i][j]];
+    }
   }
-  return data
+  return inforData
 }
 
 /**
@@ -103,10 +104,8 @@ let dataLink = [
   ["c1", "c3"]
 ];
 
-let data = arrayToMatrix(dataLink) ;//转成邻接矩阵,如果有环，返回-1，否则返回邻接矩阵
+/*let inforData = arrayToMatrix(dataLink) ;//转成邻接矩阵,如果有环，返回-1，否则返回邻接矩阵
 let data2 = arrayToData(dataLink) ; //转成节点信息
-let data3 = arrayToLinks(dataLink) ; //转成节点关系
+let data3 = arrayToLinks(dataLink) ; //转成节点关系*/
 
-export {
-  data,arrayToMatrix
-}
+export { arrayToMatrix,arrayToData }
