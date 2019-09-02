@@ -1,6 +1,12 @@
-<template>
+
+<template >
   <div>
-<!--    <input type="button"  @click="outResult()" placeholder="输出结果">-->
+    <div  v-for="item in checkResult" v-bind:key="item.id" >
+    <span v-for="(item1,index) in item"  v-bind:key="item1.id">
+      <span v-if="index!==item.length-1">{{item1}}-></span>
+      <span v-else>{{item1}}</span>
+    </span>
+    </div>
     <button @click="outResult()">输出结果</button>
   </div>
 </template>
@@ -9,18 +15,47 @@
     //导出文件
     import { saveAs } from "../javaScript/FileSaver.js"
     import {arrayToMatrix,arrayToData} from '../javaScript/data_change.js';
-    import {topoRank,topoArray} from "../javaScript/topo.js";
+    import {priorityCheck,topoArray, topoSet,topoRank} from "../javaScript/topo";
 
     export default {
         name: "checkResult",
+        data(){
+            return{
+                checkResult:undefined
+            }
+        },
+        mounted(){
+            this.getResult()
+        },
         methods: {
-            outResult:  function(){
+            outResult:  function() {
                 //topoRank(0,matrix,matrix.length);
                 //导出文件
                 // var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
                 // FileSaver.saveAs(blob, "hello world.txt");
                 var blob = new Blob([arrayToData(topoArray)], {type: "text/plain;charset=utf-8"});
                 saveAs(blob, "topoSortResult.txt");
+            },
+            getResult(){
+                // console.log(this.$store.state.tArray);
+                let datalink=this.$store.state.tArray;
+                let mock_graph = arrayToMatrix(datalink); // 邻接矩阵法存储有向图
+                priorityCheck(0,0,mock_graph);
+                topoRank(0,mock_graph,mock_graph.length)
+                let toposet=topoSet.trim();
+                let data=arrayToData(datalink);
+                let nodesLen=data.length;
+                let topoLen=topoArray.length;
+                console.log(topoArray);
+                let topo =[];
+                for(let i=0;i<topoLen;i++){
+                    topo.push([])
+                    for(let j=0;j<nodesLen;j++){
+                        topo[i].push(data[topoArray[i][j]].name)
+                    }
+                }
+                console.log(topo);
+                this.checkResult=topo;
             }
         }
 

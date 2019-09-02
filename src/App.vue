@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 <template>
   <div id="web">
 <!--跳转页面 数据共享-->
@@ -17,28 +15,8 @@
 </template>
 
 <script>
-
   export default {
-    name: 'App',
-    data () {
-        return{
-            dialogCreate:'false',
-            links: [
-                {
-                    text: '输入数据',
-                    route: '/home'
-                },
-                {
-                    text: '查看数据',
-                    route: '/relationGraph'
-                },
-                {
-                    text: '查看结果',
-                    route: '/checkResult'
-                }
-            ]
-        }
-    }
+    name: 'App'
   }
 </script>
 
@@ -51,6 +29,7 @@
 /*  color: #2c3e50;*/
 /*  margin-top: 60px;*/
 /*}*/
+
 .text-center {
   text-align: center;
 }

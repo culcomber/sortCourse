@@ -73,7 +73,8 @@
           let textContent; // 保存文件内容
           let firData = []; // 将textContent转变为数组保存在firData
           let secData = []; // 将firData转换为二维数组
-
+          let tArray = []; //先声明一维
+          this.$store.state.tArray=tArray
           const selectedFile = document.getElementById('files1').files[0]
           const reader = new FileReader()
           reader.readAsText(selectedFile) // readAsText是个异步操作，只有等到onload时才能显示数据。
@@ -88,7 +89,6 @@
             for (let i=0; i<firData.length; i++) {
                if(firData[i] !== firData[0] && firData[i] !== firData[3] &&firData[i] !== firData[4] ){
                 secData[n]=firData[i];
-                // console.log(secData[n]);
                 n++;
               }
             }
