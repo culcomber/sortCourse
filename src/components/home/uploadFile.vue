@@ -1,24 +1,74 @@
 <template>
     <div>
-      <!--隐藏输入按钮-->
-      <!--<input type="file" id="fileElem" multiple accept="txt/*" style="display:none" onchange="handleFiles(this.files)">-->
-      <!--<label for="fileElem">Select some files</label>-->
       <input type="file" id="files1" @change="uploadFile()">
+      <button @click="input()">确认导入</button>
+      <el-form id="mForm"  v-show="dynamicValidateForm.domains.length" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
+        <el-row>
+          <el-form-item
+            v-for="(domain, index) in dynamicValidateForm.domains"
+            :prop="'domains.' + index"
+            name = "mItem"
+            :key ="domain.key"
+            style="margin-top: 20px"
+            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
+
+            <el-col :span="8" >
+              <el-form-item :label="'先修者' + index"
+                            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
+                <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item  :label="'后修者' + index"
+                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
+                <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
+              </el-form-item>
+            </el-col>
+          </el-form-item>
+        </el-row>
+
+        <el-row>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
+            <!--<el-button @click="resetForm('dynamicValidateForm')">重置</el-button>-->
+          </el-form-item>
+        </el-row>
+
+      </el-form>
+
     </div>
 </template>
 
 <script>
     import {arrayToMatrix,arrayToData} from '../../javaScript/data_change.js';
     import {topoRank,topoArray} from "../../javaScript/topo.js";
+    let ttArray = []
     export default {
       name: "uploadFile",
-        // props:['dialogCreate'],
+        props:['dialogCreate'],
         data() {
             return {
-                tArray : undefined
+                tArray : undefined,
+                dynamicValidateForm: {
+                    domains: []
+                }
             };
         },
       methods: {
+        input() {
+          console.log(ttArray);
+          let that = this
+          let index = 0
+          that.dynamicValidateForm.domains = []
+          ttArray.forEach(item=>{
+            that.dynamicValidateForm.domains.push({
+              shipBefore: item[0],
+              shipAfter: item[1],
+              key: index++
+            });
+          })
+          console.log(this.dynamicValidateForm.domains)
+        },
         uploadFile :  function () {
           let textContent; // 保存文件内容
           let firData = []; // 将textContent转变为数组保存在firData
@@ -48,6 +98,8 @@
             this.tArray = []; //先声明一维
             for(let p=0; p<len; p++){ //一维长度为i,i为变量，可以根据实际情况改变
               this.tArray[p]=[]; //声明二维，每一个一维数组里面的一个元素都是一个数组；
+              //tArray.push([]); //声明二维，每一个一维数组里面的一个元素都是一个数组；
+
               for(let q=0; q<2; q++){ //一维数组里面每个元素数组可以包含的数量p，p也是一个变量；
                   this.tArray[p][q]=""; //这里将变量初始化，我这边统一初始化为空，后面在用所需的值覆盖里面的值
               }
@@ -59,10 +111,36 @@
                 this.tArray[m][1] = secData[k];
                   m++;
             }
+
               //topo排序
               let matrix = arrayToMatrix(this.tArray);
               topoRank(0,matrix,matrix.length);
+
+            ttArray = this.tArray
+
           }
+        },
+        submitForm(formName) {
+          console.log(this.dynamicValidateForm.domains)
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              this.$notify({
+                title: '成功',
+                message: '提交成功',
+                type: 'success'
+              });
+              let matrix = arrayToMatrix(ttArray);
+              if(matrix!==-1){
+                console.log(matrix);
+              }else {
+                console.log("有环")
+              }
+            } else {
+              console.log('error submit!!');
+              return false;
+            }
+          });
+
         },
       }
     }
