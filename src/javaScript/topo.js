@@ -22,15 +22,22 @@ function topoRank(cnt, graph, vNum) { // 拓扑排序函数
       }
     }
   }  // 递归终点二（拓扑序列包含少于vNum个元素，出现了非法解，假如出现这种情况，递归过程将无法结束在终点一，而只能停在此处）
+  // return toposet;
 }
-
+// function getTopoSet(graph,vNum) {
+//   var index=0;
+//   topoRank(index, graph, vNum);
+//   return topoSet;
+// }
 // 以下为模拟数据
-var mock_graph = [[0,1,1,0,0,0,0],[0,0,0,0,1,0,1],[0,0,0,0,0,1,0],[1,1,1,0,0,1,1],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,1,1,0]]; // 邻接矩阵法存储有向图
-var mock_vNum = 7;
-var mock_graph_sec = [[0,0,0,0,0],[1,0,1,0,0],[1,0,0,0,0],[0,1,1,0,0],[1,0,0,0,0]]
-var mock_vNum_sec = 5;
+// var mock_graph = [[0,1,1,0,0,0,0],[0,0,0,0,1,0,1],[0,0,0,0,0,1,0],[1,1,1,0,0,1,1],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,1,1,0]]; // 邻接矩阵法存储有向图
+// var mock_vNum = 7;
+// var mock_graph_sec = [[0,0,0,0,0],[1,0,1,0,0],[1,0,0,0,0],[0,1,1,0,0],[1,0,0,0,0]]
+// var mock_vNum_sec = 5;
 
 // API接口
-topoRank(cnt,mock_graph,mock_vNum);
+/*topoRank(cnt,mock_graph,mock_vNum);
 topoSet = topoSet.trim()
-console.log(topoSet)
+console.log(topoSet)*/
+
+export{topoRank,topoSet}

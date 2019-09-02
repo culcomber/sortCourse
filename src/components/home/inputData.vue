@@ -11,19 +11,23 @@
             style="margin-top: 20px"
             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
 
-            <el-col :span="8" >
+            <el-col>
+              <div>
               <el-form-item :label="'先修者' + index"
                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
               </el-form-item>
+              </div>
             </el-col>
-            <el-col :span="8">
+            <el-col>
+              <div>
               <el-form-item  :label="'后修者' + index"
                              :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
               </el-form-item>
+              </div>
             </el-col>
-            <el-col :span="8">
+            <el-col>
               <el-button @click.prevent="removeDomain(domain)">删除</el-button>
             </el-col>
           </el-form-item>
@@ -42,7 +46,8 @@
   </div>
 </template>
 <script>
-  // import {arrayToMatrix,data} from "./src/javaScript/data_change.js";
+  import {arrayToMatrix,data} from "../../javaScript/data_change.js";
+  import {topoRank,topoSet} from "../../javaScript/topo.js";
 
   export default {
     name: "inputData",
@@ -52,7 +57,8 @@
           domains: [{
             shipBefore: '',
             shipAfter: '',
-          }]
+          }],
+            dataInput : undefined
         },
       };
     },
@@ -66,15 +72,18 @@
                 type: 'success'
               });
 
-              let dataInput = [];
-              for(let i = 0; i<data.length; i++){
-                dataInput[i] = [];
-                dataInput[i][0] = data[i][0];
-                dataInput[i][1] = data[i][1];
+              this.dataInput = [];
+              for(let i = 0; i<this.dynamicValidateForm.domains.length; i++){
+                  this.dataInput[i] = [];
+                  this.dataInput[i][0] = this.dynamicValidateForm.domains[i]["shipBefore"];
+                  this.dataInput[i][1] = this.dynamicValidateForm.domains[i]["shipAfter"];
               }
-              let matrix = arrayToMatrix(dataInput);
+              let matrix = arrayToMatrix(this.dataInput);
+              // console.log(this.dataInput)
+              //   console.log(matrix)
               if(matrix!==-1){
-                console.log(matrix);
+                  topoRank(0,matrix,matrix.length);
+                  console.log(topoSet);
               }else {
                 console.log("有环")
               }
@@ -112,4 +121,5 @@
     margin-left: 30%;
     margin-top: 5%;
   }
+
 </style>

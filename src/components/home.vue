@@ -14,6 +14,8 @@
 </template>
 
 <script>
+    //import * as file from "../javaScript/data_change.js";
+    import { saveAs } from "../javaScript/data_change.js"
     export default {
         name: "home",
         data() {
@@ -34,5 +36,7 @@
 </script>
 
 <style scoped>
-
+p{
+  margin: 0px auto;
+}
 </style>
