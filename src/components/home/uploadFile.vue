@@ -7,7 +7,7 @@
         <button v-if="file !== ''" @click="input()" class="import">确认导入</button>
       </div>
 
-      <el-form style="margin: 5px 26%" id="mForm"  v-show="dynamicValidateForm.domains.length" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
+      <el-form style="margin: 5px 24%" id="mForm"  v-show="dynamicValidateForm.domains.length" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
         <el-row>
           <el-form-item
             v-for="(domain, index) in dynamicValidateForm.domains"
@@ -17,13 +17,13 @@
             style="margin-top: 20px"
             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
 
-            <el-col :span="9" >
+            <el-col :span="12" >
               <el-form-item :label="'先修者' + index"
                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="9">
+            <el-col :span="12">
               <el-form-item  :label="'后修者' + index"
                              :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
@@ -119,6 +119,7 @@
               m++;
             }
             ttArray = tArray
+            console.log(ttArray)
           }
         },
         submitForm(formName) {
@@ -132,6 +133,7 @@
               });
               let matrix = arrayToMatrix(ttArray);
               let flag = allRank(0,matrix,matrix.length)
+              console.log('juzhen:'+flag)
               if(flag.length !== 0){
                 setTimeout(function () {
                   that.$router.push({ path:'/relationGraph'  })

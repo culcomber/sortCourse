@@ -2,7 +2,7 @@
 <template>
   <div style="padding: 30px 0">
     <p class="title">方案展示</p>
-    <div :style="{width:'100%',height:'400px',backgroundColor: '#ffffff78'}" class="plan">
+    <div :style="{width:'100%',backgroundColor: '#ffffff78'}" class="plan">
       <div v-for="(item,index) in checkResult" v-bind:key="item.id" style="padding: 10px">
         方案{{index+1}}:
         <span v-for="(item1,index) in item" v-bind:key="item1.id" class="plantext">
@@ -87,7 +87,7 @@
   }
 
   .plan {
-    padding: 60px 300px;
+    padding: 60px 200px;
     font-size: 18px;
   }
 

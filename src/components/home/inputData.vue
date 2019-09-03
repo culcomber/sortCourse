@@ -11,19 +11,19 @@
             style="margin-top: 20px"
             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
 
-            <el-col :span="8" >
+            <el-col :span="10" >
               <el-form-item :label="'先修者' + index"
                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="10">
               <el-form-item  :label="'后修者' + index"
                              :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="4">
               <el-button @click.prevent="removeDomain(domain)">删除</el-button>
             </el-col>
           </el-form-item>
