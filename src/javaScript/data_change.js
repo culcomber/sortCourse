@@ -1,18 +1,18 @@
+let numberWhat = [];
 function toArray(dataLink){
-  let number = [];
   dataLink.forEach(index=>{
     index.forEach(value=>{
       let flag = true;
-      for(let i=0;i<number.length;i++){
-        if(number[i] === value){
+      for(let i=0;i<numberWhat.length;i++){
+        if(numberWhat[i] === value){
           flag = false;
           break
         }
       }
-      if(flag === true) number.push(value)
+      if(flag === true) numberWhat.push(value)
     })
-  })
-  return number
+  });
+  return numberWhat
 }
 
 /**
@@ -64,15 +64,13 @@ function arrayToMatrix(dataLink){
  * @param dataLink
  * @returns {Array}
  */
+let inforData = [];
 function arrayToData(dataLink){
-  let data = [];
   let number = toArray(dataLink);
-  let num = number.length;
-  for(let i = 0; i < num; i++){
-    data.push({});
-    data[i].name = number[i]
+  for( let i = 0; i <numberWhat.length; i++){
+    inforData.push({name:numberWhat[i]})
   }
-  return data
+  return inforData
 }
 
 /**
@@ -91,6 +89,5 @@ function arrayToLinks(dataLink){
   return links
 }
 
-export {
-  arrayToMatrix
-}
+export {arrayToMatrix, arrayToData, arrayToLinks}
+

@@ -1,39 +1,42 @@
 <template>
   <div>
-    <el-form id="mForm" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
+    <el-form :model="dynamicValidateForm" ref="dynamicValidateForm"  label-width="100px" class="demo-dynamic" >
+      <el-row class="demo-row1">
+        <el-form-item
+          v-for="(domain, index) in dynamicValidateForm.domains"
+          :label="'先修关系'+index+':'"
+          :key ="domain.key"
+          style="margin-top: 20px">
 
-      <el-row>
-          <el-form-item
-            v-for="(domain, index) in dynamicValidateForm.domains"
-            :prop="'domains.' + index"
-            name = "mItem"
-            :key ="domain.key"
-            style="margin-top: 20px"
-            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
+          <el-col :span="4" class="demo-col">
+            <el-form-item
+              :prop="'domains.' + index + '.shipBefore' "
+              :rules="[{required: true, message: '请输入先修者', trigger: 'blur,change'},
+                                      {min:1, message:'不能为空',trigger:'blur,change'}]"
+            >
+              <el-input v-model="domain.shipBefore"></el-input>
+            </el-form-item>
+          </el-col>
 
-            <el-col :span="8" >
-              <el-form-item :label="'先修者' + index"
-                            :rules="{required: true, message: '必填', trigger: 'blur,change'}">
-                <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item  :label="'后修者' + index"
-                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
-                <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-button @click.prevent="removeDomain(domain)">删除</el-button>
-            </el-col>
-          </el-form-item>
+          <el-col :span="4" class="demo-col">
+            <el-form-item
+              :prop="'domains.' + index + '.shipAfter'"
+              :rules="{ required: true, message: '请输入后修者', trigger: 'blur,change'}"
+            >
+              <el-input v-model="domain.shipAfter" ></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="4" >
+            <el-button @click.prevent="removeDomain(domain)">删除</el-button>
+          </el-col>
+        </el-form-item>
       </el-row>
 
       <el-row>
         <el-form-item>
           <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
           <el-button @click="addDomain">新增关系</el-button>
-          <!--<el-button @click="resetForm('dynamicValidateForm')">重置</el-button>-->
         </el-form-item>
       </el-row>
 
@@ -42,75 +45,96 @@
   </div>
 </template>
 <script>
-  import {arrayToMatrix,data} from "../../javaScript/data_change.js";
+    import {arrayToMatrix,arrayToData} from '../../javaScript/data_change.js';
+    import {topoRank,topoArray} from "../../javaScript/topo.js";
 
-  export default {
-    name: "inputData",
-    data() {
-      return {
-        dynamicValidateForm: {
-          domains: [{
-            shipBefore: '',
-            shipAfter: '',
-          }]
+    export default {
+        name: "inputData",
+        data() {
+            return {
+                count:'',
+                dynamicValidateForm: {
+                    domains: [{
+                        shipBefore : '',
+                        shipAfter: '',
+                    }],
+                    dataInput : undefined
+                },
+            };
         },
-      };
-    },
-      methods: {
-        submitForm(formName) {
-          console.log(this.dynamicValidateForm.domains)
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              this.$notify({
-                title: '成功',
-                message: '提交成功',
-                type: 'success'
-              });
 
-              let dataInput = [];
-              for(let i = 0; i<data.length; i++){
-                dataInput[i] = [];
-                dataInput[i][0] = data[i][0];
-                dataInput[i][1] = data[i][1];
-              }
-              let matrix = arrayToMatrix(dataInput);
-              if(matrix!==-1){
-                console.log(matrix);
-              }else {
-                console.log("有环")
-              }
-            } else {
-              console.log('error submit!!');
-              return false;
+        methods: {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.clear();
+                        this.$notify({
+                            title: '成功',
+                            message: '提交成功',
+                            type: 'success'
+                        });
+
+                        this.dataInput = [];
+                        for(let i = 0; i<this.dynamicValidateForm.domains.length; i++){
+                            this.dataInput[i] = [];
+                            this.dataInput[i][0] = this.dynamicValidateForm.domains[i].shipBefore;
+                            this.dataInput[i][1] = this.dynamicValidateForm.domains[i].shipAfter;
+                        }
+                        //console.log(this.dataInput);
+                        this.$store.state.tArray = this.dataInput
+                        let matrix = arrayToMatrix(this.dataInput);
+                        if(matrix!==-1){
+                            //console.log(matrix);
+                            //topoRank(0,matrix,matrix.length);
+                            //console.log(topoArray);
+                            //输出带信息的数组；
+                            //console.log(arrayToData(topoArray));
+
+                        }else {
+                            console.log("有环")
+                        }
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            removeDomain(item) {
+                let index = this.dynamicValidateForm.domains.indexOf(item);
+                if (index !== 0) {
+                    this.dynamicValidateForm.domains.splice(index, 1)
+                } else {
+                    this.$alert('到底啦！！！', '删除', {
+                        confirmButtonText: '确定',
+                    });
+                }
+            },
+            addDomain() {
+                this.dynamicValidateForm.domains.push({
+                    shipBefore: '',
+                    shipAfter: '',
+                    key: Date.now()
+                });
             }
-          });
-
-        },
-        removeDomain(item) {
-          let index = this.dynamicValidateForm.domains.indexOf(item);
-          if (index !== 0) {
-            this.dynamicValidateForm.domains.splice(index, 1)
-          } else {
-            this.$alert('到底啦！！！', '删除', {
-              confirmButtonText: '确定',
-            });
-          }
-        },
-        addDomain() {
-          this.dynamicValidateForm.domains.push({
-            shipBefore: '',
-            shipAfter: '',
-            key: Date.now()
-          });
         }
-      }
-  }
+    }
 </script>
 
 <style scoped>
   .demo-dynamic{
-    width: 40%;
-    margin-left: 30%;
+    text-align: center;
+    width: 100%;
     margin-top: 5%;
   }
+  .demo-row1{
+    width: 50%;
+    min-width: border-box;
+    margin-left: 38.4%;
+
+  }
+  .demo-col{
+    min-width: border-box;
+    margin-left: 10px;
+  }
+
 </style>
