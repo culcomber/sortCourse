@@ -1,8 +1,13 @@
 <template>
-    <div>
-      <input type="file" id="files1" @change="uploadFile()">
-      <button @click="input()">确认导入</button>
-      <el-form id="mForm"  v-show="dynamicValidateForm.domains.length" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
+    <div style="padding: 5%">
+      <div class="button">
+        <a class="file">选择文件
+        <input type="file" id="files1"   @change="uploadFile()"/>
+        </a><br>
+        <button v-if="file !== ''" @click="input()" class="import">确认导入</button>
+      </div>
+
+      <el-form style="margin: 5px 26%" id="mForm"  v-show="dynamicValidateForm.domains.length" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
         <el-row>
           <el-form-item
             v-for="(domain, index) in dynamicValidateForm.domains"
@@ -12,13 +17,13 @@
             style="margin-top: 20px"
             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
 
-            <el-col :span="8" >
+            <el-col :span="9" >
               <el-form-item :label="'先修者' + index"
                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="9">
               <el-form-item  :label="'后修者' + index"
                              :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
@@ -29,7 +34,7 @@
 
         <el-row>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
+            <el-button type="primary" @click="submitForm('dynamicValidateForm')" style="margin-left: 170px">提交</el-button>
             <!--<el-button @click="resetForm('dynamicValidateForm')">重置</el-button>-->
           </el-form-item>
         </el-row>
@@ -41,6 +46,7 @@
 
 <script>
   import {arrayToMatrix} from "../../javaScript/data_change.js";
+  import {allRank} from "../../javaScript/topo"
   let ttArray = []
     export default {
       name: "uploadFile",
@@ -49,7 +55,9 @@
         return{
           dynamicValidateForm: {
             domains: []
-          }
+          },
+          fileList: [],
+          file:''
         }
       },
       methods: {
@@ -67,7 +75,8 @@
           })
           console.log(this.dynamicValidateForm.domains)
         },
-        uploadFile :  function () {
+        uploadFile :  function ( file, fileList) {
+          this.file = file
           let textContent; // 保存文件内容
           let firData = []; // 将textContent转变为数组保存在firData
           let secData = []; // 将firData转换为二维数组
@@ -110,13 +119,10 @@
               m++;
             }
             ttArray = tArray
-
-
-
           }
         },
         submitForm(formName) {
-          console.log(this.dynamicValidateForm.domains)
+          let that = this
           this.$refs[formName].validate((valid) => {
             if (valid) {
               this.$notify({
@@ -125,13 +131,36 @@
                 type: 'success'
               });
               let matrix = arrayToMatrix(ttArray);
-              if(matrix!==-1){
-                console.log(matrix);
+              let flag = allRank(0,matrix,matrix.length)
+              if(flag.length !== 0){
+                setTimeout(function () {
+                  that.$router.push({ path:'/relationGraph'  })
+                },2000)
               }else {
-                console.log("有环")
+                this.$alert('数据逻辑错误！', '异常', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    this.$message({
+                      type: 'info',
+                      message: `action: ${ action }`
+                    });
+                  }
+                });
+                setTimeout(function () {
+                  that.$router.push({ path:'/relationGraph'  })
+                },2000)
+
               }
             } else {
-              console.log('error submit!!');
+              this.$alert('数据输入错误！', '异常', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.$message({
+                    type: 'info',
+                    message: `action: ${ action }`
+                  });
+                }
+              });
               return false;
             }
           });
@@ -143,6 +172,54 @@
 </script>
 
 <style scoped>
+  .button{
+    margin-left:45%;
+  }
+  .import{
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 5px 32px;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 40px;
+    font-size: 16px;
+  }
+  .file {
+    position: relative;/*绝对定位!*/
+    display: inline-block;/*设置为行内元素*/
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 5px 32px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 40px;
+  }
+  .file input {
+    position: absolute;/*相对定位*/
+    right: 0;
+    top: 0;
+    opacity: 0;/*将上传组件设置为透明的*/
+    font-size: 100px;
+  }
+  .file:hover {
+    background: #AADDFF;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+  }
+  .fileupload{
+
+  }
+  .demo-dynamic{
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 5%;
+  }
   /*隐藏输入按钮*/
   /* .visually-hidden {
     position: absolute !important;

@@ -1,14 +1,13 @@
 /* eslint-disable */
 
-<template>
-  <div>
+<template :style="card">
+  <div style="margin: -8px">
+    <img src="https://i.loli.net/2019/09/03/erwnatMTb197K8F.png" width="100%" style="position: fixed;z-index: -1;">
 <!--跳转页面 数据共享-->
     <ul>
-<!--   ??   <li v-for="item in links" : key='item'><a @click="$goRoute(item.route)">{{item.text}}</a></li>-->
-      <li><a @click="$goRoute('/home')">输入数据</a></li>
-<!--      <app-form  v-bind:dialogCreate = "dialogCreate" v-on:success="success(res)" > <li v-if="dialogCreate"><a @click="$goRoute('/checkData')">查看数据</a></li></app-form>-->
-      <li ><a @click="$goRoute('/relationGraph')">查看数据</a></li>
-      <li><a @click="$goRoute('/checkResult')">查看结果</a></li>
+      <!--<li><a @click="$goRoute('/home')">输入数据</a></li>-->
+      <!--<li ><a @click="$goRoute('/relationGraph')">查看数据</a></li>
+      <li><a @click="$goRoute('/checkResult')">查看结果</a></li>-->
 <!--      都可以实现,区别?? -->
 <!--      <li><router-link to="/home">输入数据</router-link></li>-->
 <!--      <li><router-link to="/checkData">查看数据</router-link></li>-->
@@ -27,6 +26,9 @@
       },
     data () {
         return{
+          card:{
+            backgroundImage:'url("https://i.loli.net/2019/09/03/erwnatMTb197K8F.png")',
+          },
             dialogCreate:'false',
             links: [
                 {

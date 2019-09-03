@@ -11,29 +11,25 @@
             style="margin-top: 20px"
             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
 
-            <el-col>
-              <div>
+            <el-col :span="8" >
               <el-form-item :label="'先修者' + index"
                             :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipBefore" name = "shipBefore"></el-input>
               </el-form-item>
-              </div>
             </el-col>
-            <el-col>
-              <div>
+            <el-col :span="8">
               <el-form-item  :label="'后修者' + index"
                              :rules="{required: true, message: '必填', trigger: 'blur,change'}">
                 <el-input v-model="domain.shipAfter" name = "shipAfter" ></el-input>
               </el-form-item>
-              </div>
             </el-col>
-            <el-col>
+            <el-col :span="8">
               <el-button @click.prevent="removeDomain(domain)">删除</el-button>
             </el-col>
           </el-form-item>
       </el-row>
 
-      <el-row>
+      <el-row style="padding: 0 150px">
         <el-form-item>
           <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
           <el-button @click="addDomain">新增关系</el-button>
@@ -47,6 +43,7 @@
 </template>
 <script>
   import {arrayToMatrix} from "../../javaScript/data_change.js";
+  import {allRank} from "../../javaScript/topo"
 
   export default {
     name: "inputData",
@@ -63,6 +60,7 @@
     },
       methods: {
         submitForm(formName) {
+          let that = this
           this.$refs[formName].validate((valid) => {
             if (valid) {
               this.$notify({
@@ -70,24 +68,44 @@
                 message: '提交成功',
                 type: 'success'
               });
-
               this.dataInput = [];
               for(let i = 0; i<this.dynamicValidateForm.domains.length; i++){
-                  this.dataInput[i] = [];
-                  this.dataInput[i][0] = this.dynamicValidateForm.domains[i]["shipBefore"];
-                  this.dataInput[i][1] = this.dynamicValidateForm.domains[i]["shipAfter"];
+                this.dataInput[i] = [];
+                this.dataInput[i][0] = this.dynamicValidateForm.domains[i]["shipBefore"];
+                this.dataInput[i][1] = this.dynamicValidateForm.domains[i]["shipAfter"];
               }
               let matrix = arrayToMatrix(this.dataInput);
-              console.log(this.dataInput)
-                this.$store.state.tArray=this.dataInput;
-                console.log(matrix)
-              if(matrix!==-1){
-                console.log(matrix);
+              this.$store.state.tArray=this.dataInput;
+              let flag = allRank(0,matrix,matrix.length)
+              if(flag.length !== 0){
+                setTimeout(function () {
+                  that.$router.push({ path:'/relationGraph'  })
+                },2000)
               }else {
-                console.log("有环")
+                this.$alert('数据逻辑错误！', '异常', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    this.$message({
+                      type: 'info',
+                      message: `action: ${ action }`
+                    });
+                  }
+                });
+                setTimeout(function () {
+                  that.$router.push({ path:'/relationGraph'  })
+                },2000)
+
               }
             } else {
-              console.log('error submit!!');
+              this.$alert('数据输入错误！', '异常', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  this.$message({
+                    type: 'info',
+                    message: `action: ${ action }`
+                  });
+                }
+              });
               return false;
             }
           });
@@ -118,7 +136,7 @@
   .demo-dynamic{
     width: 40%;
     margin-left: 30%;
-    margin-top: 5%;
+    padding: 8% 0;
   }
 
 </style>
