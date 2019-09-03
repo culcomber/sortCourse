@@ -40,20 +40,18 @@
 </template>
 
 <script>
-    import {arrayToMatrix,arrayToData} from '../../javaScript/data_change.js';
-    import {topoRank,topoArray} from "../../javaScript/topo.js";
-    let ttArray = []
+  import {arrayToMatrix} from "../../javaScript/data_change.js";
+  let ttArray = []
     export default {
       name: "uploadFile",
         props:['dialogCreate'],
-        data() {
-            return {
-                tArray : undefined,
-                dynamicValidateForm: {
-                    domains: []
-                }
-            };
-        },
+      data(){
+        return{
+          dynamicValidateForm: {
+            domains: []
+          }
+        }
+      },
       methods: {
         input() {
           console.log(ttArray);
@@ -73,8 +71,10 @@
           let textContent; // 保存文件内容
           let firData = []; // 将textContent转变为数组保存在firData
           let secData = []; // 将firData转换为二维数组
+
           let tArray = []; //先声明一维
           this.$store.state.tArray=tArray
+          // console.log(this.$store.state.tArray)
           const selectedFile = document.getElementById('files1').files[0]
           const reader = new FileReader()
           reader.readAsText(selectedFile) // readAsText是个异步操作，只有等到onload时才能显示数据。
@@ -89,34 +89,29 @@
             for (let i=0; i<firData.length; i++) {
                if(firData[i] !== firData[0] && firData[i] !== firData[3] &&firData[i] !== firData[4] ){
                 secData[n]=firData[i];
+                console.log(secData[n]);
                 n++;
               }
             }
             //构建目标数据
             let m = 0;
             let len = (secData.length) / 2;
-            this.tArray = []; //先声明一维
             for(let p=0; p<len; p++){ //一维长度为i,i为变量，可以根据实际情况改变
-
-              this.tArray[p]=[]; //声明二维，每一个一维数组里面的一个元素都是一个数组；
-              //tArray.push([]); //声明二维，每一个一维数组里面的一个元素都是一个数组；
-
+              tArray.push([]); //声明二维，每一个一维数组里面的一个元素都是一个数组；
               for(let q=0; q<2; q++){ //一维数组里面每个元素数组可以包含的数量p，p也是一个变量；
-                  this.tArray[p][q]=""; //这里将变量初始化，我这边统一初始化为空，后面在用所需的值覆盖里面的值
+                tArray[p][q]=""; //这里将变量初始化，我这边统一初始化为空，后面在用所需的值覆盖里面的值
               }
             }
 
             for (let k=0; k<secData.length; k++) {
-                this.tArray[m][0] = secData[k];
-                 k++;
-                this.tArray[m][1] = secData[k];
-                  m++;
+              tArray[m][0] = secData[k];
+              k++;
+              tArray[m][1] = secData[k];
+              m++;
             }
-              //topo排序
-              let matrix = arrayToMatrix(this.tArray);
-              //topoRank(0,matrix,matrix.length);
+            ttArray = tArray
 
-            ttArray = this.tArray
+
 
           }
         },
@@ -129,15 +124,9 @@
                 message: '提交成功',
                 type: 'success'
               });
-              this.dataInput = [];
-              for(let i = 0; i<this.dynamicValidateForm.domains.length; i++){
-                this.dataInput[i] = [];
-                this.dataInput[i][0] = this.dynamicValidateForm.domains[i].shipBefore;
-                this.dataInput[i][1] = this.dynamicValidateForm.domains[i].shipAfter;
-              }
               let matrix = arrayToMatrix(ttArray);
               if(matrix!==-1){
-                //topoRank(0,matrix,matrix.length);
+                console.log(matrix);
               }else {
                 console.log("有环")
               }

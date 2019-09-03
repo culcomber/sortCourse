@@ -1,4 +1,3 @@
-
 <template >
   <div>
     <div  v-for="item in checkResult" v-bind:key="item.id" >
@@ -12,11 +11,10 @@
 </template>
 
 <script>
-    //导出文件
     import { saveAs } from "../javaScript/FileSaver.js"
-    import {arrayToMatrix,arrayToData} from '../javaScript/data_change.js';
+    import {arrayToMatrix,arrayToData} from "../javaScript/data_change";
     import {priorityCheck,topoArray, topoSet,topoRank} from "../javaScript/topo";
-
+    let topo = []
     export default {
         name: "checkResult",
         data(){
@@ -27,15 +25,16 @@
         mounted(){
             this.getResult()
         },
-        methods: {
-            outResult:  function() {
-                //topoRank(0,matrix,matrix.length);
-                //导出文件
-                // var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
-                // FileSaver.saveAs(blob, "hello world.txt");
-                var blob = new Blob([arrayToData(topoArray)], {type: "text/plain;charset=utf-8"});
-                saveAs(blob, "topoSortResult.txt");
-            },
+        methods:{
+          outResult:  function() {
+            //topoRank(0,matrix,matrix.length);
+            //导出文件
+            // var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
+            // FileSaver.saveAs(blob, "hello world.txt");
+
+            var blob = new Blob(['\n'+topo], {type: "text/plain;charset=utf-8"});
+            saveAs(blob, "topoSortResult.txt");
+          },
             getResult(){
                 // console.log(this.$store.state.tArray);
                 let datalink=this.$store.state.tArray;
@@ -44,11 +43,10 @@
                 topoRank(0,mock_graph,mock_graph.length)
                 let toposet=topoSet.trim();
                 let data=arrayToData(datalink);
-                console.log(datalink)
                 let nodesLen=data.length;
                 let topoLen=topoArray.length;
                 console.log(topoArray);
-                let topo =[];
+                // let topo =[];
                 for(let i=0;i<topoLen;i++){
                     topo.push([])
                     for(let j=0;j<nodesLen;j++){
@@ -57,6 +55,7 @@
                 }
                 console.log(topo);
                 this.checkResult=topo;
+
             }
         }
 
