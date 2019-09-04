@@ -45,13 +45,15 @@
 <style scoped>
   .g {
     padding: 140px 100px;
-    background-color: #65b0ee;
+    background-color: #abd2ef;
     font-size: x-large;
+    color: white;
     margin: 90px 100px;
   }
 
   .choose {
     font-size: xx-large;
+    color: white;
     text-align: center;
     margin: 0;
     padding-top: 32px;

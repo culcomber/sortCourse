@@ -2,6 +2,7 @@
   <div style="padding: 30px 0">
        <div id="myChart" :style="{width:'100%',height:'600px',backgroundColor: '#ffffff78'}"></div>
     <el-row  class="exportClass result">
+      <el-button type="primary"  v-show="isShow"  @click="$goRoute('/')">返回输入</el-button>
       <el-button type="primary"  v-show="isShow"  @click="result">查看结果</el-button>
       <el-button type="primary"  v-show="isShow" @click="department_exportFigure()">导出</el-button>
     </el-row>

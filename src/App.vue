@@ -2,7 +2,7 @@
 
 <template :style="card">
   <div style="margin: -8px">
-    <img src="https://i.loli.net/2019/09/03/erwnatMTb197K8F.png" width="100%" style="position: fixed;z-index: -1;">
+    <img src="https://i.loli.net/2019/09/04/HdTk7wF5nf9lPbQ.png" width="100%" style="position: fixed;z-index: -1;">
 <!--跳转页面 数据共享-->
     <ul>
       <!--<li><a @click="$goRoute('/home')">输入数据</a></li>-->

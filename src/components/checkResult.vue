@@ -95,7 +95,7 @@
 
   }
 
-  .result {
-
+  .result{
+    margin-left: 80%;
   }
 </style>
