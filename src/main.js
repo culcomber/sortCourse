@@ -51,10 +51,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 });
-/*?? 区别 ??*/
-/* eslint-disable no-new */
-// new Vue({
-//   el: '#app',
-//   router,
-//   render: h => h(App)
-// })

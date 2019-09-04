@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import home from '@/components/home'
-import inputData from '@/components/home/inputData'
-import uploadFile from '@/components/home/uploadFile'
+import inputData from '@/components/inputData'
+import uploadFile from '@/components/uploadFile'
 import relationGraph from '@/components/relationGraph'
 import checkResult from '@/components/checkResult'
 
@@ -21,18 +21,6 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: home,
-      children: [
-        {
-          path: 'inputData',
-          name: 'inputData',
-          component: inputData
-        },
-        {
-          path: 'uploadFile',
-          name: 'uploadFile',
-          component: uploadFile
-        }
-      ]
     },
     {
       path: '/relationGraph',
@@ -43,6 +31,16 @@ export default new Router({
       path: '/checkResult',
       name: 'checkResult',
       component: checkResult
+    },
+    {
+      path: '/inputData',
+      name: 'inputData',
+      component: inputData
+    },
+    {
+      path: '/uploadFile',
+      name: 'uploadFile',
+      component: uploadFile
     }
   ]
 })

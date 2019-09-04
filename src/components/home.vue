@@ -1,8 +1,8 @@
 /* eslint-disable */
 <template>
   <div >
-    <p class="choose" v-if="flag">请选择输入方式</p>
-    <ul class="text-center spacing" style="padding: 0" v-if="flag">
+    <p class="choose" >请选择输入方式</p>
+    <ul class="text-center spacing" style="padding: 0">
       <!--    <li v-for="item in links" : key='item'><a @click="$goRoute(item.route)">{{item.text}}</a></li>-->
       <el-button class="g" @click="file" circle>读取文件</el-button>
       <el-button class="g" @click="read" circle>输入数据</el-button>
@@ -20,23 +20,21 @@
         links: [
           {
             text: 'inputData',
-            route: '/home/inputData'
+            route: '/inputData'
           },
           {
             text: 'uploadFile',
-            route: '/home/uploadFile'
+            route: '/uploadFile'
           }
         ]
       }
     },
     methods:{
       file: function () {
-        this.$router.push({ path:'/home/uploadFile'  })
-        this.flag = false
+        this.$router.push({ path:'/uploadFile'  })
       },
       read: function () {
-        this.$router.push({ path:'/home/inputData'  })
-        this.flag = false
+        this.$router.push({ path:'/inputData'  })
       }
     }
   }
@@ -53,7 +51,7 @@
 
   .choose {
     font-size: xx-large;
-    color: white;
+    color: #6f98e6;
     text-align: center;
     margin: 0;
     padding-top: 32px;

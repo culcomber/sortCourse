@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p class="input">输入关系</p>
     <el-form id="mForm" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic" >
 
       <el-row>
@@ -42,8 +43,8 @@
   </div>
 </template>
 <script>
-  import {arrayToMatrix} from "../../javaScript/data_change.js";
-  import {allRank} from "../../javaScript/topo"
+  import {arrayToMatrix} from "../javaScript/data_change.js";
+  import {allRank} from "../javaScript/topo"
 
   export default {
     name: "inputData",
@@ -133,10 +134,17 @@
 </script>
 
 <style scoped>
+  .input{
+    font-size: xx-large;
+    color: #6f98e6;
+    text-align: center;
+    margin: 0;
+    padding-top: 32px;
+  }
   .demo-dynamic{
     width: 40%;
     margin-left: 30%;
-    padding: 8% 0;
+    padding: 6% 0;
   }
 
 </style>

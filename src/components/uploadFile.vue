@@ -1,5 +1,6 @@
 <template>
-    <div style="padding: 5%">
+    <div style="padding: 2%">
+      <p class="upload">上传文件</p>
       <div class="button">
         <a class="file">选择文件
         <input type="file" id="files1"   @change="uploadFile()"/>
@@ -45,8 +46,8 @@
 </template>
 
 <script>
-  import {arrayToMatrix} from "../../javaScript/data_change.js";
-  import {allRank} from "../../javaScript/topo"
+  import {arrayToMatrix} from "../javaScript/data_change.js";
+  import {allRank} from "../javaScript/topo"
   let ttArray = []
     export default {
       name: "uploadFile",
@@ -174,6 +175,13 @@
 </script>
 
 <style scoped>
+  .upload{
+    font-size: xx-large;
+    color: #6f98e6;
+    text-align: center;
+    margin: 0;
+    padding: 15px 0 22px 0;
+  }
   .button{
     margin-left:45%;
   }
@@ -220,7 +228,7 @@
   .demo-dynamic{
     width: 40%;
     margin-left: 30%;
-    margin-top: 5%;
+    margin-top: 4%;
   }
   /*隐藏输入按钮*/
   /* .visually-hidden {
