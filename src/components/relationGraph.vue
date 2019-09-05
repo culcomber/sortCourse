@@ -72,7 +72,7 @@
                 // 触发a的单击事件
                 a.dispatchEvent(event);
               };
-            }, 3000)
+            }, 2000)
           },
           drawLine(){
             //基于准备好的dom，初始化echarts实例
@@ -83,7 +83,7 @@
              console.log(this.$store)
               console.log(this.$store.state)
             let  myChart =echarts.init(document.getElementById('myChart'));
-            myChart.showLoading();
+             myChart.showLoading();
              let nodes=arrayToData(this.tArr)
              let links=arrayToLinks(this.tArr)
             /*   let nodes=[
@@ -155,8 +155,9 @@
             }
            // console.log(linkss);
            let option={
-
              tooltip:{},
+             color:['rgb(111,152,230)','rgb(178,144,137)','rgb(97,160,168)'],
+
              series:[{//图片配置
                type:'graph',
                layout:'force',//图的布局，为力导向图
